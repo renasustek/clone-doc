@@ -144,18 +144,9 @@ export function getMDXComponents(): MDXComponents {
       <td className="px-4 py-3 text-muted-foreground">{children}</td>
     ),
     pre: Pre,
-    code: ({ children, className }) => {
-      // Inline code (no className from syntax highlighter)
-      if (!className) {
-        return (
-          <code className="px-1.5 py-0.5 mx-0.5 rounded-md bg-muted border border-border/50 text-sm font-mono text-foreground">
-            {children}
-          </code>
-        )
-      }
-      // Code block (has className from syntax highlighter)
-      return <code className={className}>{children}</code>
-    },
+    code: ({ children, className }) => (
+      <code className={cn('code-inline', className)}>{children}</code>
+    ),
     img: ({ src, alt, ...props }) => (
       <span className="block my-6">
         <Image
