@@ -1,0 +1,62 @@
+---
+title: Welcome
+description: Your team has Deductive set up. Here’s how to use it, and feel why it’s different, in the next ten minutes.
+---
+
+You’re here because someone added you to a Deductive workspace. The connectors are wired up, the bot is in your channels, and every piece of feedback your team has left so far is already nudging the agent’s reasoning. This page is the fast lane to using the thing.
+If you’re an admin and the workspace **isn’t** set up yet, jump to [**Admin setup → Overview**](https://example.com). That’s the one-time work that produces the workspace you’re about to use.
+
+<figure style={{ border: '1px solid var(--border, #e5e7eb)', borderRadius: '0.75rem', overflow: 'hidden', margin: '1.5rem 0', background: 'var(--card, #fff)' }}>
+  <img src="/welcome-page-image.png" alt="A Deductive investigation" style={{ width: '100%', display: 'block' }} />
+  <figcaption style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', color: 'var(--muted-foreground, #6b7280)', textAlign: 'center' }}>
+    What a Deductive investigation looks like: an alert fires, the agent triages it end-to-end, and the result is a TL;DR with metrics, an evidence chart, and a decision-tree summary you can dig into.
+  </figcaption>
+</figure>
+
+
+### What Deductive actually is
+
+Deductive is a production engineering agent that reads your code, telemetry, and incidents, reasons across all of it in parallel, and shows you its work. Not a chatbot wrapped around a search index. Not a summarizer. A reasoning engine you can argue with, watch think, and teach.
+
+When you ask it a question, it:
+
+- Forms multiple **hypotheses** about what could be happening
+- Spawns tools in parallel to gather evidence for each one (log queries, metric pulls, code reads, deploy diffs, dashboard fetches)
+- Builds a **decision tree** as it goes (you can open it, click any node, replay the thought)
+- Lands on an answer with **citations** you can click through to the raw source
+- Drops the conclusion into a **canvas** you can keep editing, share, or paste into Slack
+
+If it’s wrong, you tell it. If it’s right but verbose, you tell it. That feedback **reinforces successful reasoning paths and penalizes the bad ones**: the decision-tree branches that produced a correct answer get reused on similar future questions, and the missteps get avoided. The longer your team uses it, the sharper it gets, and you can read every step of why.
+
+### What makes this different from “an AI chatbot for ops”
+
+- **It plans, not predicts.** Every investigation produces a decision tree of branching hypotheses. You can read it. You can fork from any node.
+- **It reasons in parallel.** The slow path of a tired engineer at 2am (check dashboard, then logs, then deploys, then config) happens concurrently. Minutes, not an hour.
+- **Evidence is clickable.** Every claim links back to the log line, metric, trace span, or commit it came from. If a citation is wrong, you’ll see immediately.
+- **You teach it explicitly.** Inline comments are the floor. The ceiling is reinforced decision trees: a correct outcome reinforces the exact sequence of steps that produced it; a wrong outcome penalizes the missteps.
+- **It lives where you work.** The web app, Slack threads, Cursor, Claude Code, and PagerDuty alerts all hit the same agent and the same memory.
+
+## Get going
+
+<CardGroup cols={2}>
+  <Card title="Your first investigation" icon="zap" href="#">
+    Ask vs Investigate: the two ways to talk to Deductive and when to reach for which.
+  </Card>
+  <Card title="Continuous learning" icon="git-branch" href="#">
+    The knowledge graph and the decision trees: the two surfaces that make Deductive auditable instead of mysterious.
+  </Card>
+  <Card title="Teach Deductive" icon="brain" href="#">
+    How conversation and comments compound into reinforced decision trees and a sharper knowledge graph.
+  </Card>
+  <Card title="Use Deductive in Slack" icon="slack" href="#">
+    Talk to Deductive in any thread. Replies in alert threads continue the same investigation.
+  </Card>
+  <Card title="Wire alerts to auto-investigate" icon="bell" href="#">
+    Make Deductive react when an alert fires. Investigation is in the thread before you finish reading the page.
+  </Card>
+  <Card title="Asking better questions" icon="question-mark-circle" href="#">
+    Prompt patterns that work, plus role-based examples for on-call, dev, and platform.
+  </Card>
+</CardGroup>
+
+If your workspace isn’t set up yet (no green connectors, bot not in your alert channel), that’s [**Admin setup**](https://example.com).
