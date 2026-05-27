@@ -1,0 +1,138 @@
+---
+title: Wire alerts to auto-investigate
+description: Make Deductive react when an alert fires in your channels. The investigation is in the thread before the on-call finishes reading the page.
+---
+
+This is the highest-leverage user-facing setting in the product. You configure a few rules per channel; an alert fires; Deductive runs a full investigation against your stack; the answer is sitting in the thread by the time the on-call opens it. Five minutes of setup; permanent reduction in time-to-context.
+By the end of this page you’ll have alert triggers configured for at least one channel, you’ll know how to test them without paging anyone, and you’ll know the difference between full-investigation mode and triage mode.
+
+<Info>
+This page assumes the Slack workspace is already connected and the Deductive bot has been installed. If it hasn’t, point your admin at [**Admin setup → Connect Slack.**](https://example.com)) That’s a one-time, workspace-wide thing.
+</Info>
+
+## What “wired up” means
+
+<Mermaid
+  chart="
+graph LR;
+A[Alert fires\nGrafana / Datadog / Splunk / custom];
+B[Slack post\nyour existing alert channel];
+C[Deductive bot\nmatches a trigger];
+D[Investigation runs\ndecision tree, evidence];
+E[Reply in thread\nsummary + canvas link];
+F[On-call reads\ncontinues investigation];
+A --> B;
+B --> C;
+C --> D;
+D --> E;
+E --> F;"
+/>
+
+You control three knobs: **which alerts trigger, which channels they’re allowed to fire in, and how loudly Deductive responds.**
+
+## Step 1: Invite the bot to the channel
+
+`/invite @Deductive` in every channel where alerts post. The bot has to be a member to read messages. Slack doesn’t expose channel posts to bots that aren’t invited, even with workspace-level permissions. This is the single most common reason “alerts don’t trigger anything”.
+
+## Step 2: Pick alert sources
+
+Open **Integrations → Slack → Settings.** The popup lists every supported alert source with a toggle. Turn on the ones your team uses.
+
+<Frame>
+  <img src="/wire-alerts-image-one.png" style={{ width: '100%', display: 'block' }} />
+  <div style={{ borderTop: '1px solid var(--border)', padding: '0.75rem 1.25rem', fontSize: '0.875rem', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+    The Slack integration settings popup. Toggle the sources you use; the rest stay off so you don't pick up unrelated noise.
+  </div>
+</Frame>
+
+* Built-in sources:
+* Grafana (`*.grafana.net` and `grafana.com URLs`)
+* Datadog (alert URLs and API-formatted alerts)
+* Splunk
+* Sentry
+* New Relic
+* PagerDuty (incident URLs)
+* Alertmanager / Prometheus
+* Rollbar
+* Sumo Logic
+
+Each source pattern is a regex that matches the URL or message shape your alerting system posts into Slack. If your alerts come from one of these, you don’t need to configure anything else.
+
+## Step 3: Add custom patterns for in-house alerts
+
+If your team has an internal alerting system or a non-default URL shape, add a custom pattern.
+
+* Click **Custom patterns → Add pattern.**
+* Paste a regex that matches your alert message. Usually a unique URL fragment or a header line.
+* Save. The pattern is live immediately for newly posted alerts.
+
+<Tip>
+Quickest way to find a working regex: copy the most recent alert from your channel, find the most stable line in it (often a URL or a header like [ALERT][prod]), and write a regex that matches just that. Specific beats permissive.
+</Tip>
+
+## Step 4: Scope which channels can trigger
+
+By default, Deductive will react to matching alerts in any channel it’s a member of. For most teams that’s too aggressive. Use **Channel filters** to scope.
+
+Add a filter row for each channel where you want Deductive active:
+
+| Field | What it does |
+| :--- | :--- |
+| **Channel** | The Slack channel ID (e.g. `C0123ABCDEF`). |
+| **Pattern (optional)** | Restrict to alerts matching this additional regex. Useful when one channel sees mixed alert types. |
+| **Respond in thread** | If on, Deductive replies visibly in the alert thread. If off, it runs silently and only the canvas link is posted. |
+
+## Step 5: Pick a response mode
+
+Two modes:
+
+### Full investigation (default)
+
+Deductive runs the investigation, replies in the thread with the answer (root-cause hypothesis, evidence summary, recommended actions), and posts a canvas link. Best when:
+
+* The channel is real-incident-only and the on-call wants context immediately
+* You want every alert to leave a paper trail an exec can read
+
+### Triage mode
+
+Deductive runs the investigation but the visible reply is a one-liner (“triaged: looks like a transient redis blip, likely safe to ignore. Full investigation: [link]”). The full investigation is still there if anyone wants to dig in. Best when:
+
+* The channel is high-volume and you don’t want the bot lengthening every thread
+* You’re piloting Deductive and don’t want it speaking authoritatively yet
+
+Toggle triage mode on a per-trigger basis from **Alert triggers → [trigger] → Triage mode.**
+
+## Step 6: Test without paging anyone
+
+You don’t have to wait for a real incident. Three ways:
+
+**Forward an existing alert.** Go to a known-good alert post in another channel and use Slack’s **Forward** action to send it to your test channel. Deductive will pick it up exactly as if it were freshly fired.
+
+**Paste a bare alert URL.** Most alert patterns match on URL shape alone. Paste a Grafana alert URL (e.g. `https://your-org.grafana.net/alerting/grafana/abc123/view?orgId=1` ) into a channel where the bot is present. Deductive should react.
+
+**Run an investigation from the web app.** If you just want to confirm Deductive can investigate the underlying question, ask it directly: “Investigate the most recent alert in `#prod-alerts-payments`.” That isolates the agent’s reasoning from the trigger plumbing.
+
+## Step 7: Tune as alerts come in
+
+Once real alerts start flowing, two knobs tune most of the noise:
+
+* **Trigger specificity.** If Deductive is reacting to messages you don’t want, tighten the regex on the trigger or the channel filter.
+* **Triage threshold.** If the channel is busy and you only want investigations on the high-confidence ones, switch the trigger to triage mode.
+
+The feedback you leave on alert investigations also tunes the agent’s behavior over time. See [**Teach Deductive**](https://example.com).
+
+## What just happened
+
+Alerts that fire into your existing Slack channels now have a Deductive investigation attached automatically. The on-call sees evidence-backed context the moment they read the page, not after they’ve spent ten minutes context-switching.
+
+The same investigation is reachable from the web app. If the on-call wants to dig in, they click the canvas link, fork the decision tree, and continue from where Deductive left off.
+
+## Try this next
+
+<CardGroup cols={1}>
+  <Card title="Asking better questions" icon="question-mark-circle" href="#">
+    Prompt patterns that work, plus role-based examples for on-call, dev, and platform.
+  </Card>
+</CardGroup>
+
+

@@ -1,0 +1,96 @@
+---
+title: Asking better questions
+description: The prompt patterns that consistently produce sharp investigations, plus a role-based prompt library you can steal from.
+---
+
+Deductive is good at clarifying when it needs to, so you don’t need to write the perfect prompt, but a few patterns reliably produce tighter, faster, more useful investigations. This page is the cheat sheet.
+
+## The four patterns that always work
+
+### 1. Anchor in time
+
+Vague: “Why is the API slow?”
+Anchored: “Why did the API’s p99 latency jump at 14:30 today and stay elevated?”
+Time anchors give the agent a window to focus its evidence-gathering. “Yesterday between 11pm and 2am” beats “last night”. “From the last successful deploy onward” beats “recently”.
+
+### 2. Anchor in change
+
+If you suspect something changed (a deploy, a config flip, a feature flag), say so. The agent will pull the change set and correlate against it as a first-class hypothesis.
+
+>“Did anything in PR #1234 cause the payment errors after we merged it?”
+
+>“We flipped the `cache_v2` flag to true at 12:00 PT. Did anything regress in the next hour?”
+
+>“Has any deploy in the last week touched code paths that the `auth-service` calls?“
+
+### 3. Compare
+
+Comparison prompts force the agent to fetch baselines, which is almost always the correct framing for “is this normal?”.
+
+>“Compare today’s checkout error rate to the same time last week.”
+
+>“Which services are noisier in their logs this week than last week?”
+
+>“How does the latency profile of `payments` look against the rolling 30-day baseline?“
+
+### 4. Ask for the timeline, not the answer
+
+If you don’t yet know what you’re looking at, ask the agent to assemble the timeline first. The right answer often falls out of the timeline.
+
+>“Walk me through what happened to the `payment` service between 14:00 and 15:00, in order.”
+
+>“Build me a timeline of every event. Deploys, alerts, infra changes. Touching the auth path yesterday.”
+
+## A prompt library by role
+
+Steal these. They work because they hit one of the four patterns above.
+
+<Tabs>
+  <Tab title="On-call">
+    > “What was the worst-looking thing in production last night between 11pm and 2am? Build the timeline first, then propose root cause.”
+
+    > “Has anything weird happened with the `<service>` in the past 24 hours? Anchor on the last successful deploy.”
+
+    > “Summarize this week’s incidents, group them by likely cause, and flag any that look like they share a root cause.”
+
+    > “Walk me through what changed between when `<alert>` fired and when it cleared.”
+
+    > “Three pages in two days for the same service. Are they actually the same incident or three different ones?”
+  </Tab>
+  <Tab title="Dev who shipped a PR">
+    > “I merged PR #1234 yesterday. Did it break anything? Compare the metrics before and after the deploy.”
+
+    > “Has anyone else’s recent PR touched the same files as #1234? If so, what did they change?”
+
+    > “What does a normal deploy of the `<service>` service look like in metrics? Compare against today’s deploy.”
+
+    > “If I revert PR #1234, what else might I be reverting that depends on it?”
+
+    > “Before I open this PR for review. Does it touch any code path that’s recently been flagged in an incident?”
+  </Tab>
+  <Tab title="Platform / SRE">
+    > “Which services have the noisiest error logs in the last week, and is the noise growing?”
+
+    > “Where are we paying the most for compute that’s idle most of the time?”
+
+    > “Show me services whose p99 has drifted up over the last 30 days without a corresponding traffic increase.”
+
+    > “Which alerts in `#prod-alerts` have fired more than three times this month? Cluster them by likely root cause.”
+
+    > “Compare the deploy frequency and revert rate of every service. Which teams are healthiest? Which need attention?”
+  </Tab>
+  <Tab title="Customer support / TPM">
+    > “A customer says checkout has been slow for them since Tuesday. What does the data show for that customer specifically?”
+
+    > “Which incidents in the last 30 days had visible customer impact, and how long did each one last?”
+
+    > “What’s the status of the open bugs filed against the payments team this quarter?”
+
+    > “Build me a list of every recurring issue customers have raised about `<feature>`, grouped by likely cause.”
+  </Tab>
+</Tabs>
+## When the agent asks you a follow-up
+
+Sometimes Deductive will respond with a clarifying question instead of an answer. That’s a feature, not a bug. It means the prompt was ambiguous in a way that would have led to a wasted investigation. Answer the question and the investigation continues.
+If you find yourself repeatedly answering the same clarifying question across different investigations, that’s a signal that the underlying decision tree is worth reinforcing so the agent doesn’t have to ask next time. See Teach Deductive.
+
