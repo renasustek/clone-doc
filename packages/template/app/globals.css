@@ -49,9 +49,10 @@
   --ring: oklch(0.708 0 0);
 
   /* Brand accent colors - customize these for your brand */
-  --accent: #0891b2;
+  --accent: #16a34a;
   --accent-foreground: #ffffff;
-  --accent-muted: rgba(8, 145, 178, 0.1);
+  --accent-muted: rgba(22, 163, 74, 0.1);
+  --ring: oklch(0.65 0.18 145);
 }
 
 .dark {
@@ -73,15 +74,17 @@
   --ring: oklch(0.556 0 0);
 
   /* Brand accent colors - brighter for dark mode */
-  --accent: #22d3ee;
-  --accent-foreground: #0f172a;
-  --accent-muted: rgba(34, 211, 238, 0.1);
+  --accent: #4ade80;
+  --accent-foreground: #052e16;
+  --accent-muted: rgba(74, 222, 128, 0.12);
+  --ring: oklch(0.75 0.2 145);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
