@@ -1,0 +1,114 @@
+---
+title: Teach Deductive
+description: How Deductive learns from your team. Implicit signals from Slack and chat conversations, explicit inline comments, and custom-context snippets you write directly.
+---
+
+The default Deductive is good. The Deductive your team has been teaching for two months is the one nobody on your team can imagine working without.
+The simplest way to teach Deductive is to write standing instructions directly (section 0 below). Beyond that, two feedback modes compound through a training pipeline that produces reinforced decision trees and memories.
+
+<Mermaid
+  chart="
+graph LR;
+A[Implicit learning\nSlack threads + chat follow\nfrictionless];
+B[Explicit learning\ninline comments on messages\ndeliberate];
+C[Training pipeline];
+D[Reinforced decision trees];
+E[Memories feeding the\nknowledge graph];
+A --> C;
+B --> C;
+C --> D;
+C --> E;"
+/>
+
+## 0. Custom context: just tell it directly
+
+Sometimes the fastest way to teach Deductive is to write the instruction down once and have it apply everywhere. Click your avatar in the bottom-left of the workspace, open **Settings**, and pick **Custom context**.
+
+<Frame>
+  <img src="/teach-deductive-image-one.png" style={{ width: '100%', display: 'block' }} />
+  <div style={{ borderTop: '1px solid var(--border)', padding: '0.75rem 1.25rem', fontSize: '0.875rem', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+    Custom context settings. Each entry is a short instruction or fact that gets injected into every investigation in this workspace.
+  </div>
+</Frame>
+
+Good things to put here:
+
+* **Conventions.** “We always run `kubectl describe` before blaming a node”, “treat anything in the `legacy-*` namespace as deprecated, don’t surface it as a primary cause”.
+* **Owned-system facts.** “The payments service uses `pgbouncer`, not direct connections. A connection-count alert is almost always the bouncer”, “auth tokens are issued by `auth-edge`, not the user service”.
+* **Style preferences.** “Always include the offending PR if a code change is implicated”, “default to one-line summaries unless I ask for detail”.
+* **Things to avoid.** “Don’t recommend reverts as a first step. We deploy forward.”, “Never page the on-call from an investigation summary.”
+
+Custom context is shared across the workspace and applies to every investigation the agent runs from that point forward. Edit anytime; updates take effect on the next run.
+Unlike the two modes below, custom context isn’t training. It doesn’t reinforce decision trees or produce memories. Think of it as a standing instruction sheet the agent reads before every investigation. Use it for the things you’d want the agent to know on day one, before there’s enough conversation history for it to figure them out on its own.
+
+## 1. Implicit learning: your team is already doing it
+
+When your team talks about an alert in a Slack thread, or follows up on an investigation, Deductive reads the conversation and picks up signals from it. You don’t have to do anything special. The act of working the problem with teammates is the training data.
+
+What gets picked up:
+
+* **Confirmations.** “Yep, this was the deploy”, “good catch”, “agreed, restart fixed it”. Treated as positive signal on the agent’s diagnosis.
+* **Corrections.** “Actually it was the cache eviction storm”, “the metric was wrong, it under-counts cache hits”, “we ruled that out, look at the upstream gateway”. Treated as negative signal on the path the agent took, plus a captured correction.
+* **Resolutions.** “We rolled back, problem solved”, “Atlas is on it, ETA 30 min”. Treated as outcome data. What fixed the issue, who owned it.
+* **Conventions and gotchas.** “Don’t trust the staging error rate, it’s noisy below 0.05”, “ignore `legacy-*` namespaces, they’re being deprecated”. Treated as durable team knowledge.
+
+This is the easiest mode because it’s invisible. You’re already replying in the alert thread; the agent is reading along. Most of the memories your knowledge graph will accumulate come from this mode, not from anyone sitting down to “train” it.
+For Deductive to learn implicitly from a thread, the bot has to be in the channel. See [**Use Deductive in Slack**](https://example.com/docs/use-deductive-in-slack) for the day-to-day patterns.
+
+##2. Explicit learning: when you want to be deliberate
+
+Every Deductive message (chat reply, alert investigation, canvas draft) has a comment box. Use it when you want to be precise about what worked or what went wrong.
+
+<Frame>
+  <img src="/teach-deductive-image-two.png" style={{ width: '100%', display: 'block' }} />
+  <div style={{ borderTop: '1px solid var(--border)', padding: '0.75rem 1.25rem', fontSize: '0.875rem', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+    Inline comment box on a Deductive message. The polarity of your comment (positive, negative, mixed) drives the training signal.
+  </div>
+</Frame>
+
+What to write:
+
+* **When the answer is right.** A short confirmation is enough. “Good”, “this is the right call”, “spot on”. The decision tree that produced the answer gets reinforced, and the supporting evidence gets distilled into a memory the agent can draw on later.
+* **When the answer is wrong.** Write one line saying what went sideways. “Ruled out the deploy too early”, “missed the parallel job”, “answered confidently with stale data”. The decision-tree branch that took the agent there gets penalized for similar future questions, and the correction itself becomes a memory.
+* **When the answer is right but the path was wasteful.** Say so. “Right answer, wrong tool, should have used kubectl describe instead.” Useful for nudging the agent toward better-shaped reasoning even when the conclusion is correct.
+
+The more specific your comment, the stronger the signal in both directions.
+
+## What modes 1 and 2 compound into
+
+Whether the signal comes from a Slack thread or an inline comment, it lands in the same place and produces the same two effects:
+
+### Decision trees get reinforced or penalized
+
+Every signal is recorded alongside the decision tree that produced the answer. Positive signals mark the sequence of steps that led to the correct conclusion as canonical for that class of question: the next time a similar question shows up, Deductive will reuse that exact path. Negative signals mark the missteps as branches to avoid.
+
+You can see this happen on the [**Decision Trees**](https://example.comes) page: each node carries a `reinforced_count` and `last_reinforced_at` in its metadata.
+
+### Memories feed the knowledge graph
+
+Signals also get distilled into **memories** , short structured records of what your team confirmed or corrected. Memories are the source material that knowledge entries are built from (each entry on the [**Knowledge Archive**](https://example.com)has a “X source memories” link back to the threads and comments it came from). When a future investigation touches a similar topic, those memories surface as grounding context.
+
+
+## Do this now (5 min)
+
+One quick win in each mode:
+
+1. **Custom context.** Open **Settings** → **Custom context** and add two snippets: one convention your team follows that an outsider wouldn’t know, and one anti-pattern the agent has gotten wrong before. Two minutes; payoff is permanent.
+2. **Implicit.** Find the most recent alert thread in Slack where Deductive auto-investigated. Reply with one sentence summarizing what *actually* fixed it (or what the real cause turned out to be). The agent learns from that reply as if you’d written it as feedback.
+3. **Explicit.** Open one of yesterday’s investigations in the web app. Find an answer that was right and leave a one-line confirmation. Find one place the agent took an unnecessary step and leave a one-line comment saying exactly what should have happened instead.
+
+## The compounding effect
+
+A team that does this naturally (talking to each other in alert threads, leaving the occasional comment when something is clearly wrong, dropping a snippet into custom context when a wrong assumption keeps surfacing) has a meaningfully different agent within a quarter than the team that just uses Deductive out of the box. The mechanism is invisible until you see it: a question you asked last month gets answered faster and better today because of conversations and comments your teammates left in between.
+
+## Try this next
+
+<CardGroup cols={2}>
+  <Card title="Use Deductive in Slack" icon="slack" href="#">
+    Talk to Deductive in any thread. Replies in alert threads continue the same investigation.
+  </Card>
+  <Card title="Continuous learning" icon="git-branch" href="#">
+    The knowledge graph and the decision trees: the two surfaces that make Deductive auditable instead of mysterious.
+  </Card>
+</CardGroup>
+

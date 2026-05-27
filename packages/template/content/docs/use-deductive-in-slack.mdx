@@ -1,0 +1,76 @@
+---
+title: Use Deductive in Slack
+description: Talk to Deductive in any thread. Continue alert investigations cleanly, keep teammates in the loop, never leave the channel.
+---
+
+Slack is where on-call life actually happens. Deductive lives there as a first-class participant. It answers in threads, it auto-investigates alerts, and every Slack thread is bidirectionally linked to the investigation in the web app.
+By the end of this page you’ll know how to talk to Deductive from any thread, how to continue an alert investigation without losing context, and how to share an investigation across channels.
+
+## What this page assumes
+
+The Deductive Slack app is already installed in your workspace (admin one-time work. See [**Admin setup → Connect Slack**](https://example.com)) if it isn’t), and the bot is invited to the channels where you want to use it. This page covers the day-to-day “talk to Deductive in Slack” patterns. Auto-investigation setup is at [**Wire alerts to auto-investigate.**](https://example.com) )
+
+## Talk to Deductive in any thread
+
+Two ways to start a conversation:
+
+### Mention the bot
+
+`@Deductive` followed by your question. Works in any channel the bot is in, in DMs to the bot, and in threads on existing messages.
+
+```
+@Deductive what's the recent latency trend on the payments service?
+```
+
+Deductive replies in-thread (or starts a thread on your channel message). The reply includes a `web UI link` that opens the same conversation in the web app.
+
+
+<Frame>
+  <img src="/use-deductive-in-slack-image-one.png" style={{ width: '100%', display: 'block' }} />
+  <div style={{ borderTop: '1px solid var(--border)', padding: '0.75rem 1.25rem', fontSize: '0.875rem', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+    Mentioning Deductive in a channel. The reply is a summary; the web UI link opens the same conversation in the web app.
+  </div>
+</Frame>
+
+
+### Reply in an alert thread
+
+When an alert fires and Deductive auto-investigates, the alert’s thread becomes the working surface. Replying with a follow-up. Even without `@Deductive`. Extends the same investigation.
+
+```
+[alert post]
+Deductive: triaged → likely cache eviction storm. Canvas: [link]
+
+You: are you sure it's not the new deploy from 14:20?
+Deductive: re-running with that hypothesis weighted higher…
+```
+
+<Frame>
+  <img src="/use-deductive-in-slack-image-two.png" style={{ width: '100%', display: 'block' }} />
+  <div style={{ borderTop: '1px solid var(--border)', padding: '0.75rem 1.25rem', fontSize: '0.875rem', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+    Replying in an alert thread continues the same investigation. No @Deductive needed.
+</div>
+</Frame>
+
+## Keep your team in the loop
+
+A few patterns that compound nicely:
+
+**Drop a canvas link into your incident channel as the on-call work proceeds.**
+The canvas keeps updating as Deductive (and you) refine the investigation, so a link posted at minute 2 is still useful at minute 30. It beats pasting findings repeatedly.
+
+**Reply to Deductive’s investigation reply with a confirmation or correction.**
+That reply is captured as feedback (see [**Teach Deductive**](https://example.com), which means your in-thread “yep, root cause was the deploy, reverting now” makes the next investigation of the same kind sharper.
+
+**Reuse a reinforced decision tree.** When a question matches a tree your team has already reinforced, Deductive’s reply names it inline (“reusing reinforced path: payments-deploy-regression”). Teammates can see exactly which canonical reasoning path is being applied and decide whether it’s still the right one.
+
+## Try this next
+
+<CardGroup cols={2}>
+  <Card title="Ask vs Investigate" icon="zap" href="#">
+    The two ways to talk to Deductive and when to reach for which.
+  </Card>
+  <Card title="Wire alerts to auto-investigate" icon="bell" href="#">
+    Make Deductive react when an alert fires. Investigation is in the thread before you finish reading the page.
+  </Card>
+</CardGroup>
