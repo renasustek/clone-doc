@@ -80,14 +80,35 @@ Above the tree, Deductive shows an **eval scores** row computed across the trees
 * **Temporal Proximity.** Whether the evidence the tree cited was close enough in time to the symptom to be causally plausible.
 * **Anti-Leakage.** Whether the tree avoided using information from after the symptom that wouldn’t have been available at investigation time.
 * **Conclusion Quality.** How sharp and well-supported the terminal conclusions are.
-* **Domain-specific axes **(e.g. `grpo rca conclusion quality`). Additional axes the evals team has trained for your stack.
+* **Domain-specific axes** (e.g. `grpo rca conclusion quality`). Additional axes the evals team has trained for your stack.
 
 A low score on any axis is the leading indicator of where to invest training. Drill into the trees that scored low on that axis, find the recurring failure mode, and reinforce a better path (see [**Teach Deductive**](https://example.com)).
 
 ## How the graph and the tree work together
 
-graph TD
-  A[Alert fires] --> B{Agent triage}
-  B -->|Root cause found| C[Canvas + TL;DR]
-  B -->|Needs more data| D[Fan out tool calls]
-  D --> B
+<Mermaid
+  chart="
+graph TD;
+A[Your question or alert];
+B[Knowledge graph\nretrieves grounding\ncontext];
+C[Symptom\nroot of decision tree];
+D[Decision];
+E[Decision];
+F[Evidence gatherer];
+G[Evidence gatherer];
+H[End: root cause];
+I[End: no issue];
+J[Comments feed back into\nknowledge + reinforced\ntrees];
+A --> B;
+B --> C;
+C --> D;
+C --> E;
+D --> F;
+E --> G;
+F --> H;
+G --> I;
+H --> J;
+I --> J;"
+/>
+
+The knowledge graph is “what the agent always knows.” The decision tree is “what the agent did this time.” They’re two views of the same loop, and you can shape both.
