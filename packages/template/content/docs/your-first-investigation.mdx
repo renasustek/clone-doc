@@ -1,0 +1,86 @@
+---
+title: Your first investigation
+description: Deductive gives you two ways to talk to it. Ask for a quick answer, Investigate for a full reasoning run. This page walks through both so you know which to reach for.
+---
+
+The chat input has two buttons: Ask and Investigate. The choice between them is the most important habit to form on day one.
+
+* **Ask** is a fast lookup. A single-pass answer grounded in your workspace’s knowledge and recent telemetry. Typically tens of seconds, up to about a minute depending on the question. Best for “what is X”, “where do I find Y”, “when did Z last happen”.
+* **Investigate** is a full reasoning run. Deductive forms competing hypotheses, gathers evidence in parallel across your connectors, and produces an answer with citations and a shareable canvas. Tens of seconds to a few minutes. Best for “why is X happening”, “what changed”, “is it the deploy or the dependency”.
+
+Same input box, different button. Most teams hit Ask twenty times for every Investigate.
+
+<Frame>
+  <img src="/your-first-investigation-image.png" style={{ width: '100%', display: 'block' }} />
+  <div style={{ borderTop: '1px solid var(--border)', padding: '0.75rem 1.25rem', fontSize: '0.875rem', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+    The Deductive home page. Type the question, then pick Ask for a quick answer or Investigate for a full reasoning run.
+  </div>
+</Frame>
+
+### Step 1: Try Ask
+
+Open your Deductive workspace home (`app.deductive.ai`or your Enterprise `<company>.deductive.ai`). In the chat input, type something narrow and click Ask:
+
+* “When was the last deploy of `payments-api`?”
+* “Which dashboards exist for `checkout`?”
+* “What’s the on-call rotation for team Atlas this week?”
+* “What does the metric `auth.token_verify_p95` actually measure?”
+
+### Step 2: Try Investigate
+
+Clear the input. Type something that’s actually hard. Click Investigate:
+
+* “What was the worst-looking thing in production yesterday between 11pm and 2am?”
+* “Has anything weird happened with `[your service]` in the past 24 hours?”
+* “Why did `payments-api` p99 latency spike at 14:30?”
+* “Summarize this week’s incidents and group them by likely cause.”
+
+This kicks off a full reasoning run. Deductive forms multiple hypotheses, fans out tool calls across your connectors in parallel, scores the evidence, and consolidates the strongest branch into an answer.
+
+It usually takes 2–5 minutes.
+
+### Step 3: Read the answer
+
+When the run finishes you get three things:
+
+* **An answer with citations.** Every claim has a citation chip. Click one to jump straight to the log line, metric query, commit, or dashboard panel it came from. Nothing is unsourced.
+* **A canvas.** Every Investigate run produces one by default, docked alongside the chat. The canvas is a structured document with sections for root cause, timeline, evidence, and recommended actions. Edit it freely. Deductive treats your edits as ground truth and won’t overwrite them. The canvas is what most teams paste into a postmortem or share to Slack.
+* **A decision tree.** Open it from the right-side panel if you want to see Deductive’s reasoning step by step. Reading the tree is a skill of its own and is covered on [**Continuous learning**](https://example.com) For now, just know it’s there.
+
+If anything in the answer looks wrong, leave a one-line comment right there. That feedback feeds the training pipeline (full guide: [**Teach Deductive**](https://example.com)).
+
+### Step 4: Follow up
+
+Don’t end the investigation. Try one of these as a reply in the same thread:
+* “Why did you rule out a config change?”
+* “What if the regression actually started 24 hours earlier? Does the evidence still hold?”
+* “Show me every PR that touched this code path in the last month.”
+Follow-ups extend the same **investigation** rather than starting a new one. The right mental model: an investigation is a long-lived conversation Deductive remembers all of, not a one-shot Q&A. You can come back to a thread tomorrow and continue exactly where you left off.
+
+### When to use which
+
+|**You want**|**Reach for**|
+|-----|-----|
+| A fact (“when was the last deploy?”) | Ask |
+|A fact (“when was the last deploy?”) | Ask |
+| A pointer (“which dashboard for X?”) |Ask |
+| A status check (“is service Y healthy right now?”) | Ask |
+| A diagnosis (“why is X slow?”) | Investigate|
+| A timeline (“what changed before incident Y?”) | Investigate |
+| A comparison (“is it the deploy or the dependency?”) | Investigate |
+| A summary across many sources (“group this week’s incidents by cause”) |Investigate |
+
+### What just happened
+
+You exercised the two primary modes Deductive ships with. Most day-to-day work stays in Ask. The wins your team will talk about (the 2am incident solved in three minutes, the postmortem-ready canvas) come from Investigate. Knowing which to reach for is the difference between a tool that’s quick and a tool that’s transformative.
+
+### Try this next
+
+<CardGroup cols={2}>
+  <Card title="Continous learning" icon="git-branch" href="#">
+    Open the decision tree from the Investigate you just ran. See exactly how Deductive reasoned, click into any node, replay it.
+  </Card>
+  <Card title="Wire alerts to auto-investigate" icon="bell" href="#">
+    Every alert that fires in your channels can trigger an Investigate automatically. The result lands in the alert thread.
+  </Card>
+</CardGroup>

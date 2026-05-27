@@ -6,12 +6,13 @@ description: Your team has Deductive set up. Here’s how to use it, and feel wh
 You’re here because someone added you to a Deductive workspace. The connectors are wired up, the bot is in your channels, and every piece of feedback your team has left so far is already nudging the agent’s reasoning. This page is the fast lane to using the thing.
 If you’re an admin and the workspace **isn’t** set up yet, jump to [**Admin setup → Overview**](https://example.com). That’s the one-time work that produces the workspace you’re about to use.
 
-<figure style={{ border: '1px solid var(--border, #e5e7eb)', borderRadius: '0.75rem', overflow: 'hidden', margin: '1.5rem 0', background: 'var(--card, #fff)' }}>
+<Frame>
   <img src="/welcome-page-image.png" alt="A Deductive investigation" style={{ width: '100%', display: 'block' }} />
-  <figcaption style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', color: 'var(--muted-foreground, #6b7280)', textAlign: 'center' }}>
-    What a Deductive investigation looks like: an alert fires, the agent triages it end-to-end, and the result is a TL;DR with metrics, an evidence chart, and a decision-tree summary you can dig into.
-  </figcaption>
-</figure>
+  <div style={{ borderTop: '1px solid var(--border)', padding: '0.75rem 1.25rem', fontSize: '0.875rem', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+What a Deductive investigation looks like: an alert fires, the agent triages it end-to-end, and the result is a TL;DR with metrics, an evidence chart, and a decision-tree summary you can dig into.
+
+  </div>
+</Frame>
 
 
 ### What Deductive actually is
@@ -36,7 +37,7 @@ If it’s wrong, you tell it. If it’s right but verbose, you tell it. That fee
 - **You teach it explicitly.** Inline comments are the floor. The ceiling is reinforced decision trees: a correct outcome reinforces the exact sequence of steps that produced it; a wrong outcome penalizes the missteps.
 - **It lives where you work.** The web app, Slack threads, Cursor, Claude Code, and PagerDuty alerts all hit the same agent and the same memory.
 
-## Get going
+### Get going
 
 <CardGroup cols={2}>
   <Card title="Your first investigation" icon="zap" href="#">

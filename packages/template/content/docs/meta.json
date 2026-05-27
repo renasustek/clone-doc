@@ -2,14 +2,9 @@
   "title": "Documentation",
   "pages": [
     "index",
-    "quickstart",
-    "---Getting Started---",
-    "components",
-    "theming",
-    "---Guides---",
-    "deployment",
-    "customization",
-    "---[icon] Use Deductive---",
-    "welcome"
+    "---[rocket] Use Deductive---",
+    "welcome",
+    "your-first-investigation",
+    "continuous-learning"
   ]
 }

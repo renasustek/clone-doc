@@ -11,6 +11,7 @@ import { Tabs, Tab } from './tabs'
 import { Accordion, AccordionGroup } from './accordion'
 import { CodeBlock } from './code-block'
 import { Frame } from './frame'
+import { Mermaid } from './mermaid'
 import { YouTube } from './youtube'
 import { Pre } from './pre'
 import { ParamField, ResponseField, Expandable, RequestExample, ResponseExample, CodeGroup } from './api-components'
@@ -23,6 +24,7 @@ export { Tabs, Tab } from './tabs'
 export { Accordion, AccordionGroup } from './accordion'
 export { CodeBlock } from './code-block'
 export { Frame } from './frame'
+export { Mermaid } from './mermaid'
 export { YouTube } from './youtube'
 export { Pre } from './pre'
 export { ParamField, ResponseField, Expandable, RequestExample, ResponseExample, CodeGroup } from './api-components'
@@ -45,6 +47,7 @@ export function getMDXComponents(): MDXComponents {
     AccordionGroup,
     CodeBlock,
     Frame,
+    Mermaid,
     YouTube,
     // API documentation components
     ParamField,
@@ -144,9 +147,12 @@ export function getMDXComponents(): MDXComponents {
       <td className="px-4 py-3 text-muted-foreground">{children}</td>
     ),
     pre: Pre,
-    code: ({ children, className }) => (
-      <code className={cn('code-inline', className)}>{children}</code>
-    ),
+    code: ({ children, className }) => {
+      if (className === 'language-mermaid') {
+        return <Mermaid chart={String(children)} />
+      }
+      return <code className={cn('code-inline', className)}>{children}</code>
+    },
     img: ({ src, alt, ...props }) => (
       <span className="block my-6">
         <Image
