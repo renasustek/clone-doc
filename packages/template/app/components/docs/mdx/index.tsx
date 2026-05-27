@@ -12,6 +12,7 @@ import { Accordion, AccordionGroup } from './accordion'
 import { CodeBlock } from './code-block'
 import { Frame } from './frame'
 import { Mermaid } from './mermaid'
+import { PageFeedback } from './page-feedback'
 import { YouTube } from './youtube'
 import { Pre } from './pre'
 import { ParamField, ResponseField, Expandable, RequestExample, ResponseExample, CodeGroup } from './api-components'
@@ -25,6 +26,7 @@ export { Accordion, AccordionGroup } from './accordion'
 export { CodeBlock } from './code-block'
 export { Frame } from './frame'
 export { Mermaid } from './mermaid'
+export { PageFeedback } from './page-feedback'
 export { YouTube } from './youtube'
 export { Pre } from './pre'
 export { ParamField, ResponseField, Expandable, RequestExample, ResponseExample, CodeGroup } from './api-components'
@@ -48,6 +50,7 @@ export function getMDXComponents(): MDXComponents {
     CodeBlock,
     Frame,
     Mermaid,
+    PageFeedback,
     YouTube,
     // API documentation components
     ParamField,
