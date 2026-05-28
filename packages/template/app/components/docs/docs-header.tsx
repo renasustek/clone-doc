@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SearchTrigger } from './search-dialog'
@@ -18,6 +19,12 @@ export function DocsHeader({ tree }: DocsHeaderProps) {
 
   const openMobileMenu = useCallback(() => setIsMobileMenuOpen(true), [])
   const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), [])
+
+  const { resolvedTheme } = useTheme()
+  const logoSrc = resolvedTheme === 'light'
+    ? siteConfig.lightlogo.src
+    : siteConfig.logo.src
+
 
   return (
     <>
@@ -40,14 +47,12 @@ export function DocsHeader({ tree }: DocsHeaderProps) {
 
               {/* Logo */}
               <Link href="/" className="flex items-center gap-2">
-                {siteConfig.logo.src && (
-                  <Image
-                    src={siteConfig.logo.src}
-                    alt={siteConfig.logo.alt}
-                    width={siteConfig.logo.width}
-                    height={siteConfig.logo.height}
-                  />
-                )}
+                <Image
+                  src={logoSrc}
+                  alt={siteConfig.logo.alt}
+                  width={siteConfig.logo.width}
+                  height={siteConfig.logo.height}
+                />
               </Link>
             </div>
 

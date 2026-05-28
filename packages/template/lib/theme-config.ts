@@ -14,10 +14,18 @@ export const siteConfig = {
   // Logo configuration
   logo: {
     src: '/logo.svg',
-    alt: 'Unmint',
+    alt: 'Deductive.ai',
     width: 170,
     height: 170,
   },
+  // Logo configuration
+  lightlogo: {
+    src: '/light-mode-logo.svg',
+    alt: 'Deductive.ai',
+    width: 170,
+    height: 170,
+  },
+
 
   // Navigation links
   links: {
