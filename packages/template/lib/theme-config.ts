@@ -15,8 +15,8 @@ export const siteConfig = {
   logo: {
     src: '/logo.svg',
     alt: 'Unmint',
-    width: 40,
-    height: 40,
+    width: 170,
+    height: 170,
   },
 
   // Navigation links
