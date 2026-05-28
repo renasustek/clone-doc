@@ -36,8 +36,8 @@ export function DocsTOC({ toc }: DocsTOCProps) {
   return (
     <aside className="hidden xl:block w-56 shrink-0">
       <nav className="sticky top-36 max-h-[calc(100vh-10rem)] overflow-y-auto">
-        <p className="text-sm font-semibold text-foreground mb-4">On this page</p>
-        <ul className="space-y-2 text-sm">
+        <p className="text-sm">ICON On this page</p>
+        <ul className="space-y-0.5 text-sm">
           {toc.map((item) => (
             <li key={item.url}>
               <a

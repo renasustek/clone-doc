@@ -15,7 +15,7 @@ What a Deductive investigation looks like: an alert fires, the agent triages it 
 </Frame>
 
 
-### What Deductive actually is
+## What Deductive actually is
 
 Deductive is a production engineering agent that reads your code, telemetry, and incidents, reasons across all of it in parallel, and shows you its work. Not a chatbot wrapped around a search index. Not a summarizer. A reasoning engine you can argue with, watch think, and teach.
 
@@ -29,7 +29,7 @@ When you ask it a question, it:
 
 If it’s wrong, you tell it. If it’s right but verbose, you tell it. That feedback **reinforces successful reasoning paths and penalizes the bad ones**: the decision-tree branches that produced a correct answer get reused on similar future questions, and the missteps get avoided. The longer your team uses it, the sharper it gets, and you can read every step of why.
 
-### What makes this different from “an AI chatbot for ops”
+## What makes this different from “an AI chatbot for ops”
 
 - **It plans, not predicts.** Every investigation produces a decision tree of branching hypotheses. You can read it. You can fork from any node.
 - **It reasons in parallel.** The slow path of a tired engineer at 2am (check dashboard, then logs, then deploys, then config) happens concurrently. Minutes, not an hour.
@@ -37,7 +37,7 @@ If it’s wrong, you tell it. If it’s right but verbose, you tell it. That fee
 - **You teach it explicitly.** Inline comments are the floor. The ceiling is reinforced decision trees: a correct outcome reinforces the exact sequence of steps that produced it; a wrong outcome penalizes the missteps.
 - **It lives where you work.** The web app, Slack threads, Cursor, Claude Code, and PagerDuty alerts all hit the same agent and the same memory.
 
-### Get going
+## Get going
 
 <CardGroup cols={2}>
   <Card title="Your first investigation" icon="zap" href="/docs/your-first-investigation">

@@ -55,7 +55,7 @@ export default async function DocsPage({ params }: PageProps) {
       {/* Main content */}
       <article className="flex-1 min-w-0 max-w-3xl">
         {/* Header banner */}
-        <header className="mb-8 pb-6 border-b border-border">
+        <header className="mb-8 pb-6">
           <p className="text-sm text-[var(--accent)] font-medium mb-2">
             {sectionName}
           </p>

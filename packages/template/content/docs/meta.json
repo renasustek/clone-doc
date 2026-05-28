@@ -1,7 +1,6 @@
 {
   "title": "Documentation",
   "pages": [
-    "index",
     "---[rocket] Use Deductive---",
     "welcome",
     "your-first-investigation",

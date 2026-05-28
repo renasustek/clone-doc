@@ -17,7 +17,7 @@ Same input box, different button. Most teams hit Ask twenty times for every Inve
   </div>
 </Frame>
 
-### Step 1: Try Ask
+## Step 1: Try Ask
 
 Open your Deductive workspace home (`app.deductive.ai`or your Enterprise `<company>.deductive.ai`). In the chat input, type something narrow and click Ask:
 
@@ -26,7 +26,7 @@ Open your Deductive workspace home (`app.deductive.ai`or your Enterprise `<compa
 * “What’s the on-call rotation for team Atlas this week?”
 * “What does the metric `auth.token_verify_p95` actually measure?”
 
-### Step 2: Try Investigate
+## Step 2: Try Investigate
 
 Clear the input. Type something that’s actually hard. Click Investigate:
 
@@ -39,7 +39,7 @@ This kicks off a full reasoning run. Deductive forms multiple hypotheses, fans o
 
 It usually takes 2–5 minutes.
 
-### Step 3: Read the answer
+## Step 3: Read the answer
 
 When the run finishes you get three things:
 
@@ -49,7 +49,7 @@ When the run finishes you get three things:
 
 If anything in the answer looks wrong, leave a one-line comment right there. That feedback feeds the training pipeline (full guide: [**Teach Deductive**](/docs/teach-deductive)).
 
-### Step 4: Follow up
+## Step 4: Follow up
 
 Don’t end the investigation. Try one of these as a reply in the same thread:
 * “Why did you rule out a config change?”
@@ -57,7 +57,7 @@ Don’t end the investigation. Try one of these as a reply in the same thread:
 * “Show me every PR that touched this code path in the last month.”
 Follow-ups extend the same **investigation** rather than starting a new one. The right mental model: an investigation is a long-lived conversation Deductive remembers all of, not a one-shot Q&A. You can come back to a thread tomorrow and continue exactly where you left off.
 
-### When to use which
+## When to use which
 
 |**You want**|**Reach for**|
 |-----|-----|
@@ -70,11 +70,11 @@ Follow-ups extend the same **investigation** rather than starting a new one. The
 | A comparison (“is it the deploy or the dependency?”) | Investigate |
 | A summary across many sources (“group this week’s incidents by cause”) |Investigate |
 
-### What just happened
+## What just happened
 
 You exercised the two primary modes Deductive ships with. Most day-to-day work stays in Ask. The wins your team will talk about (the 2am incident solved in three minutes, the postmortem-ready canvas) come from Investigate. Knowing which to reach for is the difference between a tool that’s quick and a tool that’s transformative.
 
-### Try this next
+## Try this next
 
 <CardGroup cols={2}>
   <Card title="Continous learning" icon="git-branch" href="/docs/continuous-learning">
